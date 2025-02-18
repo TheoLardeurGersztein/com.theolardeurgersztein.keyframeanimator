@@ -1,0 +1,13 @@
+{
+  "name": "com.theolardeurgersztein.keyframeanimator",
+  "version": "1.0.0",
+  "displayName": "Keyframe Animator",
+  "description": "A tool to animate UI elements using keyframes from After Effect in Unity.",
+  "unity": "2021.3",
+  "author": {
+    "name": "Théo Lardeur Gersztein"
+  },
+  "keywords": ["animation", "UI", "keyframes", "editor"],
+  "category": "Animation",
+  "dependencies": {}
+}

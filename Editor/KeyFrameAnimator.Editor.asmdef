@@ -1,0 +1,16 @@
+{
+    "name": "KeyFrameAnimator.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0ffb4c024deddea42b25ef810a346394"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
