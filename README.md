@@ -13,7 +13,7 @@ Keyframe Animator is a Unity plugin that enables UI animation using keyframes ex
 ### Option 1: Unity Package Manager (UPM)
 1. Open Unity and go to `Window > Package Manager`.
 2. Click on `+` and select `Add package from git URL...`.
-3. Enter: https://github.com/TheoLardeurGersztein/com.theolardeurgersztein.keyframeanimator
+3. Enter: https://github.com/TheoLardeurGersztein/com.theolardeurgersztein.keyframeanimator.git
 
 
 
