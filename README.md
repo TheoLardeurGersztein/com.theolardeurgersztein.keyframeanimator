@@ -40,11 +40,30 @@ Keyframe Animator is a Unity plugin that enables UI animation using keyframes ex
    - Example format for After Effects keyframes:
 
     ```markdown
-    Transform	Position
-	Frame	X pixels	Y pixels	Z pixels
-     0    100    200    0
-     1    120    220    0
-     2    140    240    0
+    Adobe After Effects 8.0 Keyframe Data
+
+	Units Per Second	29.97
+	Source Width	100
+	Source Height	100
+	Source Pixel Aspect Ratio	1
+	Comp Pixel Aspect Ratio	1
+
+   Transform	Scale
+	Frame	X percent	Y percent	Z percent	
+	0	100	100	100	
+	1.25	100.041	100.041	100	
+	2.5	99.8865	99.8865	100	
+	3.75	99.8739	99.8739	100	
+	5	99.7986	99.7986	100	
+
+   Transform	Position
+	Frame	X pixels	Y pixels	Z pixels	
+	0	581.77	621.964	0	
+	1.25	579.395	619.694	0	
+	2.5	577.899	618.178	0	
+	3.75	576.078	615.6	0	
+	5	576.297	614.155	0	
+
      ```
 
 6. **Load Keyframes**: Click **Load Keyframes** to convert the data into a list of keyframes.
@@ -55,8 +74,15 @@ Keyframe Animator is a Unity plugin that enables UI animation using keyframes ex
    - On the **Raw Image** you wish to animate, add the `KeyframeUIAnimator` script.
    - Drag the **KeyframeConfig** asset(s) you created into the **Config** field of the component.
 
-2. **Play the Animation**:
-   - Run your scene, and the UI element will animate according to the keyframe data you've set up.
+2 **Start the Animation Using the UI Animator Name**:
+
+Now, you can start the animation by calling the StartAnimation(string animatorName) function, where animatorName is the string name of the UIAnimator attached to the target UI element.
+
+Example:
+````csharp
+KeyframeUIAnimator animator = FindObjectOfType<KeyframeUIAnimator>();
+animator.StartAnimation("KeyframeConfig");
+````
 
 
 ## 📂 Plugin Structure

@@ -6,7 +6,7 @@ public class KeyframeUIAnimator : MonoBehaviour
 {
     public List<KeyframeConfig> configs = new List<KeyframeConfig>(); // Support multiple configs
 
-    private void Start()
+    public void StartAnimation(string configName)
     {
         if (configs.Count == 0)
         {
@@ -14,23 +14,24 @@ public class KeyframeUIAnimator : MonoBehaviour
             return;
         }
 
-        foreach (var config in configs)
+        KeyframeConfig config = configs.Find(config => config.name == configName);
+
+
+        //foreach (var config in configs)
+
+        if (config == null)
         {
-            if (config == null)
-            {
-                Debug.LogError("One of the KeyframeConfigs is null.");
-                continue;
-            }
-
-            if (config.targetUIObject == null)
-            {
-                Debug.LogError($"Target UI Object is null in config: {config.name}");
-                continue;
-            }
-
-            config.LoadKeyframes();
-            StartCoroutine(AnimateUI(config)); // Start an animation coroutine for each config
+            Debug.LogError("One of the KeyframeConfigs is null.");
         }
+
+        if (config.targetUIObject == null)
+        {
+            Debug.LogError($"Target UI Object is null in config: {config.name}");
+        }
+
+        config.LoadKeyframes();
+        StartCoroutine(AnimateUI(config)); // Start an animation coroutine for each config
+
     }
 
     IEnumerator AnimateUI(KeyframeConfig config)
@@ -47,15 +48,24 @@ public class KeyframeUIAnimator : MonoBehaviour
         Vector2 canvasSize = canvasRect.sizeDelta;
 
         Vector2 localPosition = config.targetUIObject.anchoredPosition;
+        Vector3 currentScale = config.targetUIObject.localScale;
 
-        while (index < config.keyframes.Count)
+
+        while (index < config.keyframesPosition.Count)
         {
-            Vector3 pos = config.keyframes[index];
+            Vector3 pos = config.keyframesPosition[index];
+            Vector3 scale = config.keyframesScale[index];
 
             config.targetUIObject.anchoredPosition = new Vector2(
                  pos.x - (canvasSize.x / 2),
                 -pos.y + (canvasSize.y / 2)
             );
+            config.targetUIObject.localScale = new Vector3(
+                currentScale.x * scale.x,
+                currentScale.y * scale.y,
+                currentScale.z * scale.z
+            );
+
             index++;
             yield return new WaitForSeconds(config.updateRate);
         }

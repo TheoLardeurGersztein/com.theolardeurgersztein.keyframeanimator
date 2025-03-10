@@ -15,18 +15,61 @@ public class KeyframeConfig : ScriptableObject
     public string keyframeInput;
 
     [HideInInspector]
-    public List<Vector3> keyframes = new List<Vector3>();
+    public List<Vector3> keyframesPosition = new List<Vector3>();
+    [HideInInspector]
+    public List<Vector3> keyframesScale = new List<Vector3>();
 
     public void LoadKeyframes()
     {
-
-        keyframes.Clear();
         if (string.IsNullOrEmpty(keyframeInput)) return;
 
-        string[] lines = keyframeInput.Split('\n');
+        string scalePattern = @"(?<=Transform\sScale)(.*?)(?=\s*Transform|$)";
+        string positionPattern = @"(?<=Transform\sPosition)(.*?)(?=\s*Transform|$)";
 
 
-        foreach (string line in lines)
+
+        // Extract Scale data
+        keyframesScale.Clear();
+        Match scaleMatch = Regex.Match(keyframeInput, scalePattern, RegexOptions.Singleline);
+        string scaleData = scaleMatch.Value.Trim();
+        scaleData = Regex.Replace(scaleData, @"^\s*Frame\s+X\s+percent\s+Y\s+percent\s+Z\s+percent\s*$", "", RegexOptions.Multiline).Trim();
+
+        string[] scales = scaleData.Split('\n');
+
+        foreach (string line in scales)
+        {
+            string cleanedLine = line.Replace("⟶", " ");
+            cleanedLine = cleanedLine.TrimStart();
+            cleanedLine = cleanedLine.Replace(".", ",");
+            cleanedLine = Regex.Replace(cleanedLine, @"\s+", " ");
+
+
+            if (string.IsNullOrWhiteSpace(cleanedLine)) continue; // Ignorer les lignes vides
+
+            string[] values = cleanedLine.Split(' ');
+            if (values.Length >= 4)
+            {
+                if (float.TryParse(values[1], out float x) &&
+                    float.TryParse(values[2], out float y) &&
+                    float.TryParse(values[3], out float z))
+                {
+                    keyframesScale.Add(new Vector3(x / 100, y / 100, 1));
+
+                }
+            }
+        }
+
+        Debug.Log("KeyframesScale Loaded: " + string.Join(", ", keyframesScale));
+
+
+        keyframesPosition.Clear();
+        Match positionMatch = Regex.Match(keyframeInput, positionPattern, RegexOptions.Singleline);
+        string positionData = positionMatch.Value.Trim();
+        positionData = Regex.Replace(positionData, @"^\s*Frame\s+X\s+percent\s+Y\s+percent\s+Z\s+percent\s*$", "", RegexOptions.Multiline).Trim();
+
+        string[] positions = positionData.Split('\n');
+
+        foreach (string line in positions)
         {
             string cleanedLine = line.Replace("⟶", " ");
             cleanedLine = cleanedLine.TrimStart();
@@ -44,12 +87,12 @@ public class KeyframeConfig : ScriptableObject
                     float.TryParse(values[2], out float y) &&
                     float.TryParse(values[3], out float z))
                 {
-                    keyframes.Add(ConvertAEToUnity(new Vector3(x, y, 1)));
+                    keyframesPosition.Add(ConvertAEToUnity(new Vector3(x, y, 1)));
                 }
             }
         }
 
-        Debug.Log("Keyframes Loaded: " + string.Join(", ", keyframes));
+        //Debug.Log("Keyframes Loaded: " + string.Join(", ", keyframesPosition));
     }
 
     private Vector3 ConvertAEToUnity(Vector3 aePosition)
