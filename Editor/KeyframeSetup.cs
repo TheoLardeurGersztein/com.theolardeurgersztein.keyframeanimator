@@ -59,6 +59,11 @@ public class KeyframeEditor : EditorWindow
         {
 
             config.targetUIObject = (RectTransform)EditorGUILayout.ObjectField("Target UI Object", config.targetUIObject, typeof(RectTransform), true);
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.TextField("Loaded Target UI Object", config.targetUIObjectName);
+            EditorGUI.EndDisabledGroup();
+
             config.updateRate = EditorGUILayout.FloatField("Update Rate", config.updateRate);
 
             GUILayout.Label("Keyframe Input");

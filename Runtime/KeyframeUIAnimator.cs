@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class KeyframeUIAnimator : MonoBehaviour
 {
-    public List<KeyframeConfig> configs = new List<KeyframeConfig>(); // Support multiple configs
+    public List<KeyframeConfig> configs = new List<KeyframeConfig>();
+
+    void Awake()
+    {
+        foreach (var config in configs)
+        {
+            config.FindTargetUIObject();
+        }
+    }
 
     public void StartAnimation(string configName)
     {
+
         if (configs.Count == 0)
         {
             Debug.LogError("No KeyframeConfigs assigned.");
@@ -27,6 +36,14 @@ public class KeyframeUIAnimator : MonoBehaviour
         if (config.targetUIObject == null)
         {
             Debug.LogError($"Target UI Object is null in config: {config.name}");
+        }
+
+        config.FindTargetUIObject();
+
+        if (config.targetUIObject == null)
+        {
+            Debug.LogError($"Target UI Object is null in config: {config.name}");
+            return;
         }
 
         config.LoadKeyframes();

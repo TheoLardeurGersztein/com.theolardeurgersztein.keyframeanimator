@@ -66,7 +66,11 @@ Keyframe Animator is a Unity plugin that enables UI animation using keyframes ex
 
      ```
 
-6. **Load Keyframes**: Click **Load Keyframes** to convert the data into a list of keyframes.
+
+6. **Load Keyframes**: Click **Load Keyframes** to convert the data into a list of keyframes and load the UI Element.
+
+> **⚠️ Warning:**
+> After changing the UI Element, you need to **Load Keyframes**.
 
 ### Applying the Animation
 

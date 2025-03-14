@@ -10,7 +10,8 @@ using System.Text.RegularExpressions;
 [CreateAssetMenu(fileName = "KeyframeConfig", menuName = "KeyframeAnimation/Config", order = 1)]
 public class KeyframeConfig : ScriptableObject
 {
-    public RectTransform targetUIObject; // Spécifique aux objets UI
+    public RectTransform targetUIObject;
+    [SerializeField] public string targetUIObjectName;
     public float updateRate = 0.05f;
     public string keyframeInput;
 
@@ -21,6 +22,17 @@ public class KeyframeConfig : ScriptableObject
 
     public void LoadKeyframes()
     {
+
+        if (targetUIObject == null)
+        {
+            targetUIObjectName = "";
+            return;
+        }
+        else
+        {
+            targetUIObjectName = targetUIObject.name;
+        }
+
         if (string.IsNullOrEmpty(keyframeInput)) return;
 
         string scalePattern = @"(?<=Transform\sScale)(.*?)(?=\s*Transform|$)";
@@ -59,7 +71,7 @@ public class KeyframeConfig : ScriptableObject
             }
         }
 
-        Debug.Log("KeyframesScale Loaded: " + string.Join(", ", keyframesScale));
+        //Debug.Log("KeyframesScale Loaded: " + string.Join(", ", keyframesScale));
 
 
         keyframesPosition.Clear();
@@ -118,4 +130,21 @@ public class KeyframeConfig : ScriptableObject
         float y = (aePosition.y / AE_Comp_Height) * canvasSize.y;
         return new Vector3(x, y, 0);
     }
+
+    public void FindTargetUIObject()
+    {
+        if (!string.IsNullOrEmpty(targetUIObjectName))
+        {
+            GameObject foundObject = GameObject.Find(targetUIObjectName);
+            if (foundObject != null)
+            {
+                targetUIObject = foundObject.GetComponent<RectTransform>();
+            }
+            else
+            {
+                Debug.LogWarning($"Target UI Object '{targetUIObjectName}' not found in scene.");
+            }
+        }
+    }
+
 }
