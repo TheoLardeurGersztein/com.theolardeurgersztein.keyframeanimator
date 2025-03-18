@@ -80,12 +80,15 @@ Keyframe Animator is a Unity plugin that enables UI animation using keyframes ex
 
 2 **Start the Animation Using the UI Animator Name**:
 
-Now, you can start the animation by calling the StartAnimation(string animatorName) function, where animatorName is the string name of the UIAnimator attached to the target UI element.
+Now, you can start the animation by calling StartAnimation(string KeyframeConfig) or StartAnimationLoop(string KeyframeConfig), where KeyframeConfig is the string name of the KeyframeConfig.
 
 Example:
 ````csharp
 KeyframeUIAnimator animator = FindObjectOfType<KeyframeUIAnimator>();
 animator.StartAnimation("KeyframeConfig");
+animator.StartAnimationLoop("KeyframeConfig2");
+...
+animator.StopAnimationLoop("KeyframeConfig2");
 ````
 
 
